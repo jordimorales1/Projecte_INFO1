@@ -12,7 +12,7 @@ class Airport :
         self.schengen = False
 
 def IsSchengenAirport(code):
-    if code in SCHENGEN_PREFIXES :
+    if code[:2] in SCHENGEN_PREFIXES : #el code[:2] selecciona només els 2 primers caracters del codi ICAO
         return True
     return False
 
@@ -20,7 +20,36 @@ def SetSchengen(airport):
     airport.schengen = IsSchengenAirport(airport.code)
 
 def PrintAirport(airport):
-    print("Codi ICAO : {airport.code")
-    print("Latitud : {airport.lat}")
-    print("Longitud : {airport.lon}")
-    print("Schengen : {airport.schengen}")
+    print(f"Codi ICAO : {airport.code}")
+    print(f"Latitud : {airport.lat}")
+    print(f"Longitud : {airport.lon}")
+    print(f"Schengen : {airport.schengen}")
+
+
+#per acabar de pulir Pas 3
+def LoadAirports(filename):
+    ap = []
+
+    F = open(filename, 'r')
+    lines = F.readlines()
+    """
+    if filename not found : 
+        print(f"No s'ha trobat el fitxer {filename}")
+        return ap
+    """
+
+    for line in lines[1:]:
+        line = line.strip()
+        parts = line.split()
+        code = parts[0]
+        """
+        S'han de passar a graus decimals
+        """
+        lat = parts[1]
+        lon = parts[2]
+        airport = Airport(code, lat, lon)
+        ap.append(airport)
+    return ap
+
+
+
